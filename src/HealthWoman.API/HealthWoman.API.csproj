@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
@@ -14,6 +18,7 @@
     <ProjectReference Include="..\HealthWoman.Application\HealthWoman.Application.csproj" />
     <ProjectReference Include="..\HealthWoman.Communication\HealthWoman.Communication.csproj" />
     <ProjectReference Include="..\HealthWoman.Exception\HealthWoman.Exception.csproj" />
+    <ProjectReference Include="..\HealthWoman.Infrastructure\HealthWoman.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
