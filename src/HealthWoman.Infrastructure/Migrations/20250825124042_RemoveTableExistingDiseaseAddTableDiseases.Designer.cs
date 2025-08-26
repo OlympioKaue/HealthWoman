@@ -3,6 +3,7 @@ using HealthWoman.Infrastructure.DataAcess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthWoman.Infrastructure.Migrations
 {
     [DbContext(typeof(HealthWomanDbContext))]
-    partial class HealthWomanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250825124042_RemoveTableExistingDiseaseAddTableDiseases")]
+    partial class RemoveTableExistingDiseaseAddTableDiseases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +94,7 @@ namespace HealthWoman.Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ContainsExistingDisease")
+                    b.Property<bool>("ContainsExistingDiseases")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Email")
@@ -114,17 +117,12 @@ namespace HealthWoman.Infrastructure.Migrations
             modelBuilder.Entity("HealthWoman.Domain.Entities.Diseases", b =>
                 {
                     b.HasOne("HealthWoman.Domain.Entities.Woman", "Woman")
-                        .WithMany("Diseases")
+                        .WithMany()
                         .HasForeignKey("WomanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Woman");
-                });
-
-            modelBuilder.Entity("HealthWoman.Domain.Entities.Woman", b =>
-                {
-                    b.Navigation("Diseases");
                 });
 #pragma warning restore 612, 618
         }

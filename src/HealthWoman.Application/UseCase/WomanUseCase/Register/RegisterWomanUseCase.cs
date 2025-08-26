@@ -3,7 +3,7 @@ using HealthWoman.Communication.ResponseDTO.Woman.Register;
 using HealthWoman.Domain.Entities;
 using HealthWoman.Domain.Repositories;
 using Mapster;
-using MapsterMapper;
+using System.Runtime.Intrinsics.X86;
 
 namespace HealthWoman.Application.UseCase.WomanUseCase.Register;
 
@@ -25,15 +25,40 @@ public class RegisterWomanUseCase : IRegisterWomanUseCase
         if (thisNameExists)
             throw new Exception($"Registro cancelado, o nome digitado, {registerWoman.WomanName}, existe no banco de dados");
 
-        var womanAdd = registerWoman.Adapt<Woman>();  
-        await _womanCommand.AddWoman(womanAdd);
+        if (registerWoman.ContainsExistingDiseases!.ToLower() is "Sim" &&
+          (registerWoman.DiseaseName is null || registerWoman.DiseaseName.Count is 0))
+        {
+            throw new Exception("Registro cancelado, você informou que possui doenças existentes, mas não listou nenhuma doença.");
+        }
+
+        var womanMapping = registerWoman.Adapt<Woman>();
+
+        if (registerWoman.ContainsExistingDiseases!.Equals("Não", StringComparison.CurrentCultureIgnoreCase))
+        {
+            womanMapping.ContainsExistingDisease = false;
+            await _womanCommand.AddWoman(womanMapping);
+            await _saveChanges.Save();
+
+            return new ResponseWomanDTO
+            {
+                Id = womanMapping.Id,
+                ReturnMessage = "Registro efetuado com sucesso!"
+            };
+
+        }
+
+        womanMapping.ContainsExistingDisease = true;
+        womanMapping.Diseases = registerWoman.DiseaseName!
+        .Select(nameDiseases => new Diseases { DiseaseName = nameDiseases })
+        .ToList();
+
+        await _womanCommand.AddWoman(womanMapping);
         await _saveChanges.Save();
 
         return new ResponseWomanDTO
         {
-            Id = womanAdd.Id,
+            Id = womanMapping.Id,
             ReturnMessage = "Registro efetuado com sucesso!"
         };
-
     }
 }

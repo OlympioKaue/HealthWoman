@@ -3,6 +3,7 @@ using HealthWoman.Infrastructure.DataAcess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthWoman.Infrastructure.Migrations
 {
     [DbContext(typeof(HealthWomanDbContext))]
-    partial class HealthWomanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250825110450_AddTableDisiase")]
+    partial class AddTableDisiase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace HealthWoman.Infrastructure.Migrations
                     b.ToTable("awarenessMonths");
                 });
 
-            modelBuilder.Entity("HealthWoman.Domain.Entities.Diseases", b =>
+            modelBuilder.Entity("HealthWoman.Domain.Entities.ExistingDisease", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,17 +51,18 @@ namespace HealthWoman.Infrastructure.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DiseaseName")
-                        .HasColumnType("longtext");
+                    b.Property<bool>("ContainsExistingDiseases")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("WomanId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WomanId");
+                    b.HasIndex("WomanId")
+                        .IsUnique();
 
-                    b.ToTable("diseases");
+                    b.ToTable("ExistingDisease");
                 });
 
             modelBuilder.Entity("HealthWoman.Domain.Entities.HealthQuestions", b =>
@@ -91,9 +95,6 @@ namespace HealthWoman.Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ContainsExistingDisease")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
@@ -111,11 +112,11 @@ namespace HealthWoman.Infrastructure.Migrations
                     b.ToTable("woman");
                 });
 
-            modelBuilder.Entity("HealthWoman.Domain.Entities.Diseases", b =>
+            modelBuilder.Entity("HealthWoman.Domain.Entities.ExistingDisease", b =>
                 {
                     b.HasOne("HealthWoman.Domain.Entities.Woman", "Woman")
-                        .WithMany("Diseases")
-                        .HasForeignKey("WomanId")
+                        .WithOne("ExistingDisease")
+                        .HasForeignKey("HealthWoman.Domain.Entities.ExistingDisease", "WomanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -124,7 +125,7 @@ namespace HealthWoman.Infrastructure.Migrations
 
             modelBuilder.Entity("HealthWoman.Domain.Entities.Woman", b =>
                 {
-                    b.Navigation("Diseases");
+                    b.Navigation("ExistingDisease");
                 });
 #pragma warning restore 612, 618
         }

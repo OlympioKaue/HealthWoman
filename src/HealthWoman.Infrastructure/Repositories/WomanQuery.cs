@@ -13,6 +13,6 @@ internal class WomanQuery : IWomanQuery
     }
     public async Task<bool> WomanExistsByThisName(string womanName)
     {
-        return await _context.woman.AnyAsync(query => query.WomanName == womanName);
+        return await _context.woman.AnyAsync(query => query.WomanName!.ToLower() == womanName.ToLower());
     }
 }
