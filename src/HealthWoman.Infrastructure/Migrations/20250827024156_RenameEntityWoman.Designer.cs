@@ -3,6 +3,7 @@ using HealthWoman.Infrastructure.DataAcess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthWoman.Infrastructure.Migrations
 {
     [DbContext(typeof(HealthWomanDbContext))]
-    partial class HealthWomanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250827024156_RenameEntityWoman")]
+    partial class RenameEntityWoman
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,34 +43,6 @@ namespace HealthWoman.Infrastructure.Migrations
                     b.ToTable("awarenessMonths");
                 });
 
-            modelBuilder.Entity("HealthWoman.Domain.Entities.AwarenessQuestions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("MaxAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MinAge")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("awarenessQuestions");
-                });
-
             modelBuilder.Entity("HealthWoman.Domain.Entities.Diseases", b =>
                 {
                     b.Property<int>("Id")
@@ -87,6 +62,25 @@ namespace HealthWoman.Infrastructure.Migrations
                     b.HasIndex("WomanId");
 
                     b.ToTable("diseases");
+                });
+
+            modelBuilder.Entity("HealthWoman.Domain.Entities.HealthQuestions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AgeGroup")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("QuestionText")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("healthQuestions");
                 });
 
             modelBuilder.Entity("HealthWoman.Domain.Entities.Woman", b =>

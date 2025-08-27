@@ -10,7 +10,7 @@ public class Woman
     public int NumberOfChildren { get; set; }
     public string? Email { get; set; }
     public string? PhoneNumber { get; set; }
-    public bool ContainsExistingDisease { get; set; }
+    public string? ContainsExistingDisease { get; set; }
     public ICollection<Diseases> Diseases { get; set; } = [];
 
 

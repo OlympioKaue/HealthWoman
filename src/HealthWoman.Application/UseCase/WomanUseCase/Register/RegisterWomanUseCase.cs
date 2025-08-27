@@ -35,7 +35,7 @@ public class RegisterWomanUseCase : IRegisterWomanUseCase
 
         if (registerWoman.ContainsExistingDiseases!.Equals("Não", StringComparison.CurrentCultureIgnoreCase))
         {
-            womanMapping.ContainsExistingDisease = false;
+            womanMapping.ContainsExistingDisease = "Não";
             await _womanCommand.AddWoman(womanMapping);
             await _saveChanges.Save();
 
@@ -47,7 +47,7 @@ public class RegisterWomanUseCase : IRegisterWomanUseCase
 
         }
 
-        womanMapping.ContainsExistingDisease = true;
+        womanMapping.ContainsExistingDisease = "Sim";
         womanMapping.Diseases = registerWoman.DiseaseName!
         .Select(nameDiseases => new Diseases { DiseaseName = nameDiseases })
         .ToList();

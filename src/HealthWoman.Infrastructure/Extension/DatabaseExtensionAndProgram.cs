@@ -18,8 +18,10 @@ public static class DatabaseExtensionAndProgram
     private static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IWomanCommand, WomanCommand>();
-        services.AddScoped<IWomanQuery, WomanQuery>();;
-        services.AddScoped<ISaveChangesCommand, SaveChangesCommand>();;
+        services.AddScoped<IWomanQuery, WomanQuery>();
+        services.AddScoped<IAwarenessMonthQuery, AwarenessMonthQuery>();
+        services.AddScoped<IAwarenessQuestionsQuery, AwarenessQuestionsQuery>();
+        services.AddScoped<ISaveChangesCommand, SaveChangesCommand>();
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

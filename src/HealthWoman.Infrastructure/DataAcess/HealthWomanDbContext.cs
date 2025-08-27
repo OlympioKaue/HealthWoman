@@ -8,9 +8,9 @@ public class HealthWomanDbContext : DbContext
     public HealthWomanDbContext(DbContextOptions option) : base(option) {}
     public DbSet<Woman> woman { get; set; }
     public DbSet<AwarenessMonth> awarenessMonths { get; set; }
-    public DbSet<HealthQuestions> healthQuestions { get; set; }
+    public DbSet<AwarenessQuestions> awarenessQuestions { get; set; }
     public DbSet<Diseases> diseases { get; set; }
-    //public DbSet<WomanDiseases> womanDiseases { get; set; }
+ 
     
 
 
