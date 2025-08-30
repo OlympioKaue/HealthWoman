@@ -2,6 +2,7 @@
 using HealthWoman.Domain.Repositories;
 using HealthWoman.Infrastructure.DataAcess;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HealthWoman.Infrastructure.Repositories;
 
@@ -13,12 +14,13 @@ internal class AwarenessQuestionsQuery : IAwarenessQuestionsQuery
         _context = context;
     }
 
-    public async Task<List<AwarenessQuestions>> GetAwarenessQuestions()
+    public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<AwarenessQuestions, TResult>> selector)
     {
-        var tt =  await _context.awarenessQuestions.AsNoTracking().ToListAsync();
+        return await _context.awarenessQuestions.AsNoTracking().Select(selector).ToListAsync();
+    }
 
-        tt.Select(x => x.Question).ToList();
-
-        return tt;
+    public async Task<TResult?> GetByIdAsync<TResult>(int id, Expression<Func<AwarenessQuestions, TResult>> selector)
+    {
+        return await _context.awarenessQuestions.AsNoTracking().Where(x => x.Id == id).Select(selector).FirstOrDefaultAsync();
     }
 }

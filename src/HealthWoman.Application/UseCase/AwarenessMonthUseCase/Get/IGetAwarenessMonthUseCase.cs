@@ -5,5 +5,6 @@ namespace HealthWoman.Application.UseCase.AwarenessMonthUseCase.Get;
 
 public interface IGetAwarenessMonthUseCase : IGenericApplication
 {
-    Task<ResponseListAwarenessMonthDTO> GetExecute();
+    Task<ResponseListAwarenessMonthDTO> GetAllExecute();
+    Task<ResponseAwarenessMonthDTO> GetByMonthNameExecute(string month);
 }

@@ -5,5 +5,7 @@ namespace HealthWoman.Application.UseCase.AwarenessQuestionsUseCase.Get;
 
 public interface IGetAwarenessQuestionsUseCase : IGenericApplication
 {
-    Task<ResponseListAwarenessQuestionsDTO> GetExecute();
+    Task<ResponseListAwarenessQuestionsDTO> GetAllExecute();
+    Task<ResponseGetByIdAwarenessQuestionsDTO> GetByIdExecute(int id); 
+   
 }

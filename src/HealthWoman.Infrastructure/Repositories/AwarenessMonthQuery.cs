@@ -17,4 +17,21 @@ internal class AwarenessMonthQuery : IAwarenessMonthQuery
     {
         return await _context.awarenessMonths.AsNoTracking().OrderBy(am => am.Id).ToListAsync();
     }
+
+    public async Task<AwarenessMonth?> GetByIdAwarenessMonth(string month)
+    {
+        if (string.IsNullOrWhiteSpace(month))
+            return null;
+
+        var query = month.ToLower() switch
+        {
+            "marco" => "março lilás",
+            "agosto" => "agosto lilás",
+            "outubro" => "outubro rosa",
+            _ => month
+        };
+
+        return await _context.awarenessMonths.AsNoTracking().FirstOrDefaultAsync(x => x.MonthName!.ToLower() == query.ToLower());
+
+    }
 }

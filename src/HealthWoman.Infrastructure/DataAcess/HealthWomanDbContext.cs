@@ -21,9 +21,10 @@ public class HealthWomanDbContext : DbContext
         modelBuilder.Entity<Woman>()
             .HasMany(x => x.Diseases)
             .WithOne(x => x.Woman)
-            .HasForeignKey(x => x.WomanId);
-        
-        
+            .HasForeignKey(x => x.WomanId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+      
 
 
     }

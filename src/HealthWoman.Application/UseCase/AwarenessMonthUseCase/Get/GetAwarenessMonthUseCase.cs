@@ -15,7 +15,7 @@ public class GetAwarenessMonthUseCase : IGetAwarenessMonthUseCase
         _awarenessQuery = awarenessQuery;
     }
 
-    public async Task<ResponseListAwarenessMonthDTO> GetExecute()
+    public async Task<ResponseListAwarenessMonthDTO> GetAllExecute()
     {
         var awarenessMonths = await _awarenessQuery.GetAwarenessMonth();
         if (awarenessMonths.Count is 0)
@@ -23,6 +23,15 @@ public class GetAwarenessMonthUseCase : IGetAwarenessMonthUseCase
 
         var response = awarenessMonths.Adapt<List<ResponseAwarenessMonthDTO>>();
         return new ResponseListAwarenessMonthDTO { AwarenessMonths = response };
+    }
 
+    public async Task<ResponseAwarenessMonthDTO> GetByMonthNameExecute(string month)
+    {
+        var testestes = await _awarenessQuery.GetByIdAwarenessMonth(month);
+        if (testestes is null)
+            throw new Exception("Mês inválido. Os meses válidos são: Marco, Agosto e Outubro.");
+
+        var response = testestes.Adapt<ResponseAwarenessMonthDTO>();
+        return response;
     }
 }

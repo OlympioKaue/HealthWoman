@@ -7,17 +7,18 @@ namespace HealthWoman.API.Controllers;
 [ApiController]
 public class AwarenessMonthController : ControllerBase
 {
-    [HttpGet("teste")]
-    public async Task<IActionResult> GetAwarenessDateMonths([FromServices] IGetAwarenessMonthUseCase useCase)
+    [HttpGet]
+    public async Task<IActionResult> GetAwarenessMonth([FromServices] IGetAwarenessMonthUseCase useCase)
     {
-        var result = await useCase.GetExecute();
+        var result = await useCase.GetAllExecute();
         return Ok(result);
     }
 
-    [HttpGet]
-    public IActionResult GetAllAwarenessMonths()
+    [HttpGet("month")]
+    public async Task<IActionResult> GetByMonthAwarenessMonth([FromServices] IGetAwarenessMonthUseCase useCase, [FromHeader] string month)
     {
-        return Ok();
+        var result = await useCase.GetByMonthNameExecute(month);
+        return Ok(result);
     }
 
 
