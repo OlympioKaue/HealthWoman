@@ -1,9 +1,10 @@
 ﻿using HealthWomen.Communication.ResponseDTO.AwarenessQuestions.Get;
 using HealthWomen.Domain.Repositories;
-using Mapster;
 
 namespace HealthWomen.Application.UseCase.AwarenessQuestionsUseCase.Get;
-
+/// <summary>
+/// classe da regra de negócio
+/// </summary>
 public class GetAwarenessQuestionsUseCase : IGetAwarenessQuestionsUseCase
 {
     private readonly IAwarenessQuestionsQuery _awarenessQuestionsQuery;
@@ -11,9 +12,12 @@ public class GetAwarenessQuestionsUseCase : IGetAwarenessQuestionsUseCase
     {
         _awarenessQuestionsQuery = awarenessQuestionsQuery;
     }
-
+    /// <summary>
+    /// Executar o método da regra de negócio
+    /// </summary>
+    /// <returns>Retorno das perguntas pré definidas</returns>
     public async Task<ResponseListAwarenessQuestionsDTO> GetAllExecute()
-     {
+    {
         var getResponse = await _awarenessQuestionsQuery
         .GetAllAsync(x => new ResponseAwarenessQuestionsDTO
         {
@@ -23,23 +27,21 @@ public class GetAwarenessQuestionsUseCase : IGetAwarenessQuestionsUseCase
 
         return new ResponseListAwarenessQuestionsDTO { AwarenessQuestions = getResponse };
     }
-
+    /// <summary>
+    /// Executar o método da regra de negócio
+    /// </summary>
+    /// <param name="id">Parâmetro via request</param>
+    /// <returns>retorno da respostas pré definidas</returns>
+    /// <exception cref="Exception"></exception>
     public async Task<ResponseGetByIdAwarenessQuestionsDTO> GetByIdExecute(int id)
     {
-       var result = await _awarenessQuestionsQuery.GetByIdAsync(
-       id,
-       x => new ResponseGetByIdAwarenessQuestionsDTO
-       {
-           Answer = x.Answer
-       });
-
-        if(result is null)
+        var result = await _awarenessQuestionsQuery.GetByIdAsync(id, x => new ResponseGetByIdAwarenessQuestionsDTO
         {
-            throw new Exception("Não encontrado respostas vinculadas a esse ID.");
-        }
-     
-        return result;
+            Answer = x.Answer
+        });
+
+        return result is null ? throw new Exception("Não encontrado respostas vinculadas a esse ID.") : result;
     }
 
-   
+
 }

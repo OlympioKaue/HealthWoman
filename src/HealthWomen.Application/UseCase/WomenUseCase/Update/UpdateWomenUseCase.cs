@@ -5,7 +5,9 @@ using HealthWomen.Domain.Repositories;
 using Mapster;
 
 namespace HealthWomen.Application.UseCase.WomanUseCase.Update;
-
+/// <summary>
+/// Classe da regra de negócio
+/// </summary>
 public class UpdateWomanUseCase : IUpdateWomanUseCase
 {
     private readonly IWomenCommand _womanCommand;
@@ -17,6 +19,13 @@ public class UpdateWomanUseCase : IUpdateWomanUseCase
         _womanQuery = womanQuery;
         _save = save;
     }
+    /// <summary>
+    /// Método de executar na regra de negócio
+    /// </summary>
+    /// <param name="update">Parâmetro via request, dados a serem atualizados</param>
+    /// <param name="id">Parâmetro via reques, ID da mulher</param>
+    /// <returns>Sem retorno</returns>
+    /// <exception cref="Exception"></exception>
     public async Task UpdateExecute(UpdateWomanDTO update, int id)
     {
         var mapping = update.Adapt<Women>();

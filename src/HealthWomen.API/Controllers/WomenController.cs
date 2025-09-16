@@ -37,13 +37,25 @@ public class WomenController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Obter dados completos do registro, filtrando apenas pelo ID
+    /// </summary>
+    /// <param name="useCase">Dados da regra de negócio</param>
+    /// <param name="id">Parâmetro enviado pela request, ID da mulher</param>
+    /// <returns>Retorne os dados completos</returns>
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById([FromServices] IGetWomanUseCase useCase, int id)
     {
         var result = await useCase.GetByIdExecute(id);
         return Ok(result);
     }
-
+    /// <summary>
+    /// Atualização dos dados cadastrados, Filtre pelo ID
+    /// </summary>
+    /// <param name="useCase">Dados da regra de negócio</param>
+    /// <param name="update">Parâmetro via request (Dados a serem atualizados)</param>
+    /// <param name="id">Parâmetro enviado pela request, ID da mulher</param>
+    /// <returns>Não retorne nada, apenas atualize os dados cadastrados</returns>
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromServices] IUpdateWomanUseCase useCase, [FromBody] UpdateWomanDTO update, [FromRoute] int id)
     {

@@ -13,12 +13,12 @@ internal class AwarenessMonthQuery : IAwarenessMonthQuery
         _context = context;
     }
 
-    public async Task<List<AwarenessMonth>> GetAwarenessMonth()
+    public async Task<List<AwarenessMonth>> GetAwarenessMonths()
     {
         return await _context.awarenessMonths.AsNoTracking().OrderBy(am => am.Id).ToListAsync();
     }
 
-    public async Task<AwarenessMonth?> GetByIdAwarenessMonth(string month)
+    public async Task<AwarenessMonth?> GetAwarenessByMonth(string month)
     {
         if (string.IsNullOrWhiteSpace(month))
             return null;

@@ -30,13 +30,11 @@ public class GetWomanUseCase : IGetWomanUseCase
             Id = x.Id,
             WomanName = x.WomanName,
         });
-
-        var tt = resultSelected.Adapt<ResponseGetListWomanDTO>();
         
-        if (tt.listWoman.Count is 0)
+        if (resultSelected.Count is 0)
             throw new Exception("Nenhuma mulher cadastrada no banco de dados.");
 
-        return new ResponseGetListWomanDTO { listWoman = tt.listWoman };
+        return new ResponseGetListWomanDTO { listWoman = resultSelected };
 
     }
 
@@ -44,7 +42,7 @@ public class GetWomanUseCase : IGetWomanUseCase
     /// Método para buscar dados filtrados pelo ID
     /// </summary>
     /// <param name="id">Parâmetro enviado via Rota</param>
-    /// <returns>Retorne os dados cadastrados, filtrando pelo ID.</returns>
+    /// <returns>Retorne os dados cadastrados, filtrando pelo ID</returns>
     /// <exception cref="Exception"></exception>
     public async Task<ResponseGetAllWomanDTO> GetByIdExecute(int id)
     {

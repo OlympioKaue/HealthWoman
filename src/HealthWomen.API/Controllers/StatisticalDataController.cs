@@ -8,10 +8,15 @@ namespace HealthWomen.API.Controllers
     [ApiController]
     public class StatisticalDataController : ControllerBase
     {
+        /// <summary>
+        /// Obter dados estatíticos
+        /// </summary>
+        /// <param name="useCase">Dados sobre a regra de negócio</param>
+        /// <returns>Retorno dos dados (Mulheres Cadastrada, Papanicolau, Doenças encontradas, Numero de Doenças mais comum) </returns>
         [HttpGet]
-        public async Task<IActionResult> GetStaticWomanData([FromServices] IGetStatisticalDataUseCase useCase)
+        public async Task<IActionResult> GetStatic([FromServices] IGetStatisticalDataUseCase useCase)
         {
-            var result = await useCase.GetExecute();
+            var result = await useCase.GetStaticalExecute();
             return Ok(result);
         }
 
