@@ -42,6 +42,7 @@ public class WomenController : ControllerBase
         return NoContent();
     }
 
+    //t
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteById()
     {
