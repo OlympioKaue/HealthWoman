@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace HealthWomen.Domain.Entities;
 
-namespace HealthWomen.Domain.Entities;
-
-public class Women
+public class Woman
 {
     public int Id { get; set; }
     public string? WomanName { get; set; }
@@ -12,8 +10,5 @@ public class Women
     public string? PhoneNumber { get; set; }
     public string? ContainsExistingDisease { get; set; }
     public ICollection<Diseases> Diseases { get; set; } = [];
-
-
-
 
 }

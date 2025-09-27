@@ -1,18 +1,19 @@
-﻿using HealthWomen.Communication.RequestDTO.Woman.Register;
-using HealthWomen.Communication.ResponseDTO.Woman.Register;
+﻿using HealthWomen.Communication.RequestDTO.Women.Register;
+using HealthWomen.Communication.ResponseDTO.Women.Register;
 using HealthWomen.Domain.Entities;
 using HealthWomen.Domain.Repositories;
 using Mapster;
 
-namespace HealthWomen.Application.UseCase.WomanUseCase.Register;
-/// <summary>
-/// Regra de negócio.
-/// </summary>
+namespace HealthWomen.Application.UseCase.WomenUseCase.Register;
+
 public class RegisterWomanUseCase : IRegisterWomanUseCase
 {
     private readonly IWomenCommand _womanCommand;
     private readonly IWomenQuery _womanQuery;
     private readonly ISaveChangesCommand _saveChanges;
+    private const string ThereIsDisease = "Yes";
+    private const string ThereIsNotDisease = "Not";
+    
     public RegisterWomanUseCase(IWomenCommand womanCommand, IWomenQuery womanQuery, ISaveChangesCommand saveChanges)
     {
         _womanCommand = womanCommand;
@@ -21,46 +22,43 @@ public class RegisterWomanUseCase : IRegisterWomanUseCase
     }
 
     /// <summary>
-    /// Método para registrar um mulher no banco de dados
+    /// Executa o método e passe os parâmetros enviados pelo usúario.
     /// </summary>
-    /// <param name="register">Dados enviados pela request</param>
-    /// <returns>Retorno do registro</returns>
-    /// <exception cref="Exception"></exception>
-    public async Task<ResponseWomanDTO> ExecuteAsync(RegisterWomanDTO register)
+    /// <param name="requestRegister">dados enviado via request</param>
+    public async Task<ResponseWomanDTO> ExecuteAsync(RegisterWomanDto requestRegister)
     {
-        var existingName = await _womanQuery.GetByName(register.WomanName!);
-        if (existingName)
-            throw new Exception($"Registro cancelado, o nome digitado, {register.WomanName}, existe no banco de dados");
+        var isNameExisting = await _womanQuery.GetByName(requestRegister.WomanName!);
+        if (isNameExisting)
+            throw new Exception($"registration canceled, name entered, " +
+                                $"{requestRegister.WomanName}, exists in database");
 
-        if (register.ContainsExistingDiseases!.Equals("Sim", StringComparison.CurrentCultureIgnoreCase) && (register.DiseaseName is null || register.DiseaseName.Count is 0))
-            throw new Exception("Registro cancelado, você informou que possui doenças existentes, mas não listou nenhuma doença.");
+        var womanEntity = requestRegister.Adapt<Woman>();
 
-        var womanMapping = register.Adapt<Women>();
+        var diseaseStatus = ContainsDiseasesRegister(womanEntity.ContainsExistingDisease!);
+        if (diseaseStatus is ThereIsDisease
+            && (requestRegister.DiseaseName is null || requestRegister.DiseaseName.Count is 0))
+            throw new Exception("registration canceled, you reports disease but there are no diseases listed.");
 
-        if (register.ContainsExistingDiseases!.Equals("Não", StringComparison.CurrentCultureIgnoreCase))
-        {
-            womanMapping.ContainsExistingDisease = "Não";
-            await _womanCommand.AddWoman(womanMapping);
-            await _saveChanges.Save();
-
-            return new ResponseWomanDTO
+        womanEntity.ContainsExistingDisease = diseaseStatus;
+        womanEntity.Diseases = requestRegister.DiseaseName
+            .Select(nameDisease => new Diseases
             {
-                Id = womanMapping.Id,
-                ReturnMessage = "Registro efetuado com sucesso!"
-            };
-
-        }
-
-        womanMapping.ContainsExistingDisease = "Sim";
-        womanMapping.Diseases = [.. register.DiseaseName!.Select(nameDiseases => new Diseases { DiseaseName = nameDiseases })];
-
-        await _womanCommand.AddWoman(womanMapping);
+                DiseaseName = nameDisease
+            })
+            .ToList();
+        
+        await _womanCommand.AddWoman(womanEntity);
         await _saveChanges.Save();
 
-        return new ResponseWomanDTO
-        {
-            Id = womanMapping.Id,
-            ReturnMessage = "Registro efetuado com sucesso!"
-        };
+        var responseDto = ResponseWomanDTO.Response(id: womanEntity.Id, returnMessage: "successful");
+        return responseDto;
+    }
+
+    private static string ContainsDiseasesRegister(string diseaseRequests)
+    {
+        var result = diseaseRequests.Equals("Yes", StringComparison.CurrentCultureIgnoreCase)
+            ? ThereIsDisease
+            : ThereIsNotDisease;
+        return result;
     }
 }

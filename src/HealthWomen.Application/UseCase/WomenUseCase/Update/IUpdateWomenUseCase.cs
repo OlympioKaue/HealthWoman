@@ -1,18 +1,9 @@
-﻿using HealthWomen.Communication.ResponseDTO.Woman.Register;
-using HealthWomen.Application.Reflection;
-using HealthWomen.Communication.RequestDTO.Woman.Register;
+﻿using HealthWomen.Application.Reflection;
+using HealthWomen.Communication.RequestDTO.Women.Register;
 
-namespace HealthWomen.Application.UseCase.WomanUseCase.Update;
-/// <summary>
-/// Interface para o uso na regra de negócio
-/// </summary>
+namespace HealthWomen.Application.UseCase.WomenUseCase.Update;
+
 public interface IUpdateWomanUseCase : IGenericApplication
-{
-    /// <summary>
-    /// Método de executar na regra de negócio
-    /// </summary>
-    /// <param name="update">Parâmetro via request, dados a serem atualizados</param>
-    /// <param name="id">Parâmetro via reques, ID da mulher</param>
-    /// <returns>Sem retorno</returns>
-    Task UpdateExecute(UpdateWomanDTO update, int id);
+{ 
+    Task UpdateExecute(UpdateWomanDTO updateRequest, int id);
 }

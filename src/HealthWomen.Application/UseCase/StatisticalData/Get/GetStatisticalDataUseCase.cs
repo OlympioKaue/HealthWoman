@@ -31,18 +31,12 @@ public class GetStatisticalDataUseCase : IGetStatisticalDataUseCase
 
             if (woman.ContainsExistingDisease?.Equals("sim", StringComparison.OrdinalIgnoreCase) == true) womenWithComorbidities++;
         }
-
-        // Versão antiga
-        //var resultDoencas = queryWomanDb.Where(x => x.Diseases != null && x.Diseases.Any()).SelectMany(x => x.Diseases).GroupBy(d => d.DiseaseName)
-        //.Select(g => new ResponseDiseasesStatisticalDataWoman
-        //{
-        //    DiseaseName = g.Key,
-        //    MostCommonComorbidities = g.Count(),
-        //})
-        //.ToList();
-
-        //Versão melhorada
-        var resultDoencas = queryWomanDb.Where(w => w.Diseases?.Any() == true).SelectMany(w => w.Diseases).Where(s => !string.IsNullOrWhiteSpace(s.DiseaseName)).GroupBy(d => d.DiseaseName)
+            
+        //Versão melhorada  
+        var resultDoencas = queryWomanDb.Where(w => w.Diseases?.Any() == true)
+            .SelectMany(w => w.Diseases)
+            .Where(s => !string.IsNullOrWhiteSpace(s.DiseaseName))
+            .GroupBy(d => d.DiseaseName)
             .Select(g => new ResponseDiseasesStatisticalDataWoman
             {
                 DiseaseName = g.Key,

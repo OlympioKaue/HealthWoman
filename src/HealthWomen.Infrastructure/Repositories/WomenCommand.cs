@@ -14,12 +14,12 @@ internal class WomenCommand : IWomenCommand
         _context = context;
     }
 
-    public async Task AddWoman(Women addWoman)
+    public async Task AddWoman(Woman addWoman)
     {
         await _context.woman.AddAsync(addWoman);
     }
 
-    public void UpdateWoman(Women updateWoman)
+    public void UpdateWoman(Woman updateWoman)
     {
         _context.woman.Update(updateWoman);
     }

@@ -1,4 +1,4 @@
-﻿namespace HealthWomen.Communication.ResponseDTO.Woman.Get;
+﻿namespace HealthWomen.Communication.ResponseDTO.Women.Get;
 
 public class ResponseGetAllWomanDTO
 {

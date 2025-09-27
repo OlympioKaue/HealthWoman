@@ -4,6 +4,6 @@ namespace HealthWomen.Domain.Repositories;
 
 public interface IWomenCommand
 {
-    Task AddWoman(Women addWoman);
-    void UpdateWoman(Women updateWoman);
+    Task AddWoman(Woman addWoman);
+    void UpdateWoman(Woman updateWoman);
 }

@@ -1,4 +1,5 @@
-﻿using HealthWomen.Domain.Entities;
+﻿using HealthWomen.Domain;
+using HealthWomen.Domain.Entities;
 using HealthWomen.Domain.Repositories;
 using HealthWomen.Infrastructure.DataAcess;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +15,13 @@ internal class StatisticalDataQuery : IStatisticalDataQuery
         _context = context;
     }
 
-    public async Task<List<Women>> GetStatisticalDataAsync()
+
+
+    public async Task<List<Woman>> GetStatisticalDataAsync()
     {
         return await _context.woman.Include(x => x.Diseases).AsNoTracking().ToListAsync();
     }
+
+   
+
 }

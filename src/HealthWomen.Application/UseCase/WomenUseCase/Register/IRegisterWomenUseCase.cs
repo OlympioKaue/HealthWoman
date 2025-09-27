@@ -1,18 +1,8 @@
 ﻿using HealthWomen.Application.Reflection;
-using HealthWomen.Communication.RequestDTO.Woman.Register;
-using HealthWomen.Communication.ResponseDTO.Woman.Register;
-
-namespace HealthWomen.Application.UseCase.WomanUseCase.Register;
-/// <summary>
-/// Interface de retorno na regra de negócio
-/// </summary>
+using HealthWomen.Communication.RequestDTO.Women.Register;
+using HealthWomen.Communication.ResponseDTO.Women.Register;
+namespace HealthWomen.Application.UseCase.WomenUseCase.Register;
 public interface IRegisterWomanUseCase : IGenericApplication
 {
-    /// <summary>
-    /// Executar o método na regra de negócio
-    /// </summary>
-    /// <param name="register">Dados enviados pela request</param>
-    /// <returns>Retorno do registro</returns>
-    Task<ResponseWomanDTO> ExecuteAsync(RegisterWomanDTO register);
-    
+    Task<ResponseWomanDTO> ExecuteAsync(RegisterWomanDto requestRegister);
 }

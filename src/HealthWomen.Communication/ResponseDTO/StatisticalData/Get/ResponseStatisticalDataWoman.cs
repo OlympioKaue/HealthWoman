@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace HealthWomen.Communication.ResponseDTO.StatisticalData.Get;
+﻿namespace HealthWomen.Communication.ResponseDTO.StatisticalData.Get;
 
 public class ResponseStatisticalDataWoman
 {

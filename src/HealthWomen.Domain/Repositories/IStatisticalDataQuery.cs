@@ -5,5 +5,6 @@ namespace HealthWomen.Domain.Repositories;
 
 public interface IStatisticalDataQuery
 {
-    Task<List<Women>> GetStatisticalDataAsync();
+    Task<List<Woman>> GetStatisticalDataAsync();
+
 }

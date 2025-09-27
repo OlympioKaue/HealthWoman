@@ -15,12 +15,12 @@ builder.Services.AddApplicationLayer();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContextMigrate = scope.ServiceProvider.GetRequiredService<HealthWomenDbContext>();
-    dbContextMigrate.Database.Migrate();
-
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var dbContextMigrate = scope.ServiceProvider.GetRequiredService<HealthWomenDbContext>();
+//     dbContextMigrate.Database.Migrate();
+//
+// }
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
